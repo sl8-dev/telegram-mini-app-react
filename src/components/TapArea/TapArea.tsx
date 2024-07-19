@@ -81,24 +81,26 @@ const TapArea: FC = () => {
 
   return (
     <div className={styles.tapAreaContainer} onTouchStart={handleTap}>
-      <motion.img
-        className={styles.tapArea}
-        src={'/assets/eagle-coin.png'}
-        alt={'Gold Eagle Coin Icon'}
-        animate={coinAnimation ? {scale: [1, 1.05, 1]} : {}}
-        transition={{duration: 0.1}}
-      />
+      <AnimatePresence>
+        <motion.img
+          className={styles.tapArea}
+          src={'/assets/eagle-coin.png'}
+          alt={'Gold Eagle Coin'}
+          animate={coinAnimation ? { scale: [1, 1.05, 1] } : {}}
+          transition={{ duration: 0.1 }}
+        />
+      </AnimatePresence>
 
       <AnimatePresence>
         {taps.map((tap) => (
           <motion.div
             key={tap.id}
             className={styles.tapIndicator}
-            initial={{opacity: 1, scale: 1, y: 250}}
-            animate={{opacity: 0, scale: 2, y: 150}}
-            exit={{opacity: 0}}
-            transition={{duration: 0.6}}
-            style={{top: tap.y, left: tap.x - 15}}
+            initial={{ opacity: 1, scale: 1, y: 250 }}
+            animate={{ opacity: 0, scale: 2, y: 150 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{ top: tap.y, left: tap.x - 15 }}
             onAnimationComplete={() => handleAnimationComplete(tap.id)}
           >
             +{tapWeight}
