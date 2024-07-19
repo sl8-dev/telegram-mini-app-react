@@ -67,20 +67,25 @@ const TapArea: FC = () => {
       intervalTapCountRef.current += e.touches.length;
       return newCount;
     });
+
+    doTap();
+  };
+
+  const doTap = () => {
     onUserTap();
 
     navigator.vibrate(50);
 
     setCoinAnimation(true);
     setTimeout(() => setCoinAnimation(false), 100);
-  };
+  }
 
   const handleAnimationComplete = (id: number) => {
     setTaps((prevTaps) => prevTaps.filter((tap) => tap.id !== id));
   };
 
   return (
-    <div className={styles.tapAreaContainer} onTouchStart={handleTap}>
+    <div className={styles.tapAreaContainer} onTouchStart={handleTap} onClick={doTap}>
       <AnimatePresence>
         <motion.img
           className={styles.tapArea}
