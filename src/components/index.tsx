@@ -8,3 +8,4 @@ export * from './EnergyBar';
 export * from './PromoBanner';
 export * from './RewardBanner';
 export * from './Header';
+export * from './Loader';
