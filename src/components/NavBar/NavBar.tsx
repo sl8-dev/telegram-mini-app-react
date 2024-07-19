@@ -14,9 +14,9 @@ const NavBar: FC = () => {
     navigate('/');
   };
 
-  const onSlatePage = () => {
-    navigate('/slate');
-  };
+  // const onSlatePage = () => {
+  //   navigate('/slate');
+  // };
 
   // const onDebugPage = () => {
   //   navigate('/debug');
@@ -27,7 +27,6 @@ const NavBar: FC = () => {
       <IconButton icon={'rewards'} title={'Home'} onClick={onHomePage} />
       <IconButton icon={'boost'} title={'Boost'} onClick={onDummyPage} />
       <IconButton icon={'mine'} title={'Mine'} onClick={onDummyPage} />
-      <IconButton icon={'fav'} title={'SL8'} onClick={onSlatePage} />
       <IconButton icon={'fav'} title={'Wallet'} onClick={onDummyPage} />
     </div>
   );
