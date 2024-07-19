@@ -5,6 +5,8 @@ export const IS_DEBUG = import.meta.env.VITE_DEBUG === 'true'; // Enables loggin
 
 export const IS_PRODUCTION = import.meta.env.PROD; // Enables analytics, etc.
 
+export const ACESS_TOKEN_STORAGE_KEY = "session_token";
+
 IS_DEBUG &&
   console.log('@/config', {
     // PUBLIC_URL,

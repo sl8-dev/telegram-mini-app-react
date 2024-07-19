@@ -3,7 +3,7 @@ import { useSession } from '@/hooks';
 import { DisplayData, DisplayDataRow } from '@/components/DisplayData/DisplayData.tsx';
 import { useInitData, useLaunchParams, User } from '@tma.js/sdk-react';
 import { List, Placeholder } from '@telegram-apps/telegram-ui';
-import { URL_GRAPHQL } from '@/config.ts';
+import { ACESS_TOKEN_STORAGE_KEY, URL_GRAPHQL } from '@/config.ts';
 import { AccessTokenParams, LOGIN_WITH_ACCESS_TOKEN } from '@/providers';
 import { useMutation } from '@apollo/client';
 import { getCurrentVersion, transformInitData } from '@/utils';
@@ -89,15 +89,15 @@ const DebugPage: FC = () => {
   };
 
   const handleRequest = async (webAppData: AccessTokenParams) => {
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem(ACESS_TOKEN_STORAGE_KEY);
 
     if (accessToken) {
-      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, accessToken);
       return;
     }
 
     if (sessionToken) {
-      localStorage.setItem('access_token', sessionToken);
+      localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, sessionToken);
       return;
     }
 
@@ -112,7 +112,7 @@ const DebugPage: FC = () => {
         throw new Error('Failed load session data');
       }
 
-      localStorage.setItem('access_token', response.data.telegramUserLogin.access_token);
+      localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, response.data.telegramUserLogin.access_token);
     } catch (error) {
       // const errorMessage = isGraphqlError(error, 'FULL_MAINTENANCE') ?? (error as unknown as Error).message;
       setError(JSON.stringify(error, null, 2));
@@ -141,7 +141,7 @@ const DebugPage: FC = () => {
       <p>TOKEN errorAPI: {errorAPI}</p>
       <p>WEB APP DATA: {JSON.stringify(data, null, 2)}</p>
       <p>URL: {URL_GRAPHQL}</p>
-      <p>Access token from LS: {localStorage.getItem('access_token')}</p>
+      <p>Access token from LS: {localStorage.getItem(ACESS_TOKEN_STORAGE_KEY)}</p>
 
       <List>
         <DisplayData header={'Init Data'} rows={initDataRows} />

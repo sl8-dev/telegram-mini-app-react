@@ -1,10 +1,10 @@
 import { ApolloClient, ApolloLink, concat, HttpLink, InMemoryCache } from '@apollo/client';
-import { URL_GRAPHQL } from './config';
+import { ACESS_TOKEN_STORAGE_KEY, URL_GRAPHQL } from './config';
 
 const httpLink = new HttpLink({ uri: URL_GRAPHQL });
 
 const authLink = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem(ACESS_TOKEN_STORAGE_KEY);
 
   operation.setContext({
     headers: {

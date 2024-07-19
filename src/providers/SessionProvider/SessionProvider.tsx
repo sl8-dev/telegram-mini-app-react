@@ -3,6 +3,7 @@ import { isGraphqlError, transformInitData } from '@/utils';
 import { useMutation } from '@apollo/client';
 import { useInitData, useLaunchParams } from '@tma.js/sdk-react';
 import { AccessTokenParams, LOGIN_WITH_ACCESS_TOKEN, SessionContextProps, SessionProviderProps } from '@/providers';
+import { ACESS_TOKEN_STORAGE_KEY } from '@/config';
 
 export const SessionContext = createContext<SessionContextProps | undefined>({
   sessionToken: null,
@@ -41,16 +42,16 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
     const handleRequest = async (webAppData: AccessTokenParams) => {
       setIsLoading(true);
 
-      const accessToken = localStorage.getItem('access_token');
+      const accessToken = localStorage.getItem(ACESS_TOKEN_STORAGE_KEY);
 
       if (accessToken) {
-        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, accessToken);
         setSessionToken(`Bearer ${accessToken}`);
         return;
       }
 
       if (sessionToken) {
-        localStorage.setItem('access_token', sessionToken);
+        localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, sessionToken);
         return;
       }
 
@@ -66,7 +67,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
         }
 
         setSessionToken(`Bearer ${response.data.telegramUserLogin.access_token}`);
-        localStorage.setItem('access_token', response.data.telegramUserLogin.access_token);
+        localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, response.data.telegramUserLogin.access_token);
       } catch (error) {
         const errorMessage = isGraphqlError(error, 'FULL_MAINTENANCE') ?? (error as unknown as Error).message;
         setError(errorMessage);
