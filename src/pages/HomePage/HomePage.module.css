@@ -32,3 +32,11 @@
   align-items: center;
   gap: 16px;
 }
+
+.loaderContainer {
+  height: 70dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
