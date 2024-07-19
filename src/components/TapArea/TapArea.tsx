@@ -14,6 +14,7 @@ interface Tap {
 const TapArea: FC = () => {
   const [taps, setTaps] = useState<Tap[]>([]);
   const [tapCount, setTapCount] = useState(0);
+  const [coinAnimation, setCoinAnimation] = useState(false);
   const {
     tapWeight,
     isTapAreaDisabled,
@@ -69,6 +70,9 @@ const TapArea: FC = () => {
     onUserTap();
 
     navigator.vibrate(50);
+
+    setCoinAnimation(true);
+    setTimeout(() => setCoinAnimation(false), 100);
   };
 
   const handleAnimationComplete = (id: number) => {
@@ -77,18 +81,24 @@ const TapArea: FC = () => {
 
   return (
     <div className={styles.tapAreaContainer} onTouchStart={handleTap}>
-      <img className={styles.tapArea} src={'/assets/eagle-coin.png'} alt={'Gold Eagle Coin Icon'} />
+      <motion.img
+        className={styles.tapArea}
+        src={'/assets/eagle-coin.png'}
+        alt={'Gold Eagle Coin Icon'}
+        animate={coinAnimation ? {scale: [1, 1.05, 1]} : {}}
+        transition={{duration: 0.1}}
+      />
 
       <AnimatePresence>
         {taps.map((tap) => (
           <motion.div
             key={tap.id}
             className={styles.tapIndicator}
-            initial={{ opacity: 1, scale: 1, y: 250 }}
-            animate={{ opacity: 0, scale: 2, y: 150 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ top: tap.y, left: tap.x - 15 }}
+            initial={{opacity: 1, scale: 1, y: 250}}
+            animate={{opacity: 0, scale: 2, y: 150}}
+            exit={{opacity: 0}}
+            transition={{duration: 0.6}}
+            style={{top: tap.y, left: tap.x - 15}}
             onAnimationComplete={() => handleAnimationComplete(tap.id)}
           >
             +{tapWeight}
