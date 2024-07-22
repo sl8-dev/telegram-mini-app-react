@@ -18,9 +18,9 @@ const NavBar: FC = () => {
   //   navigate('/slate');
   // };
 
-  // const onDebugPage = () => {
-  //   navigate('/debug');
-  // };
+  const onDebugPage = () => {
+    navigate('/debug');
+  };
 
   return (
     <div className={styles.navbar}>
@@ -28,6 +28,7 @@ const NavBar: FC = () => {
       <IconButton icon={'boost'} title={'Boost'} onClick={onDummyPage} />
       <IconButton icon={'mine'} title={'Mine'} onClick={onDummyPage} />
       <IconButton icon={'fav'} title={'Wallet'} onClick={onDummyPage} />
+      <IconButton icon={'fav'} title={'Debug'} onClick={onDebugPage} />
     </div>
   );
 };
