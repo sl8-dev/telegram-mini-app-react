@@ -15,6 +15,7 @@ const HomePage: FC = () => {
   }
 
   if (errorGameConfig) {
+    localStorage.setItem('session_token', '')
     window.location.href = '/';
     return null;
   }
