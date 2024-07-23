@@ -23,22 +23,26 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
   const initData = useInitData();
   const transformedAuthDate = initData?.authDate ? Math.floor(initData.authDate.getTime() / 1000) : 0;
 
-  const data: AccessTokenParams = {
-    auth_date: transformedAuthDate,
-    checkDataString: (initDataRaw && transformInitData(initDataRaw)) ?? '',
-    hash: initData?.hash ?? '',
-    query_id: initData?.queryId ?? '',
-    user: {
-      id: initData?.user?.id || 0,
-      first_name: initData?.user?.firstName || '',
-      last_name: initData?.user?.lastName || '',
-      username: initData?.user?.username || '',
-      language_code: initData?.user?.languageCode || '',
-      allows_write_to_pm: initData?.user?.allowsWriteToPm || false,
-    },
-  };
-
   useEffect(() => {
+    if (!initData) {
+      return;
+    }
+
+    const data: AccessTokenParams = {
+      auth_date: transformedAuthDate,
+      checkDataString: (initDataRaw && transformInitData(initDataRaw)) ?? '',
+      hash: initData?.hash ?? '',
+      query_id: initData?.queryId ?? '',
+      user: {
+        id: initData?.user?.id || 0,
+        first_name: initData?.user?.firstName || '',
+        last_name: initData?.user?.lastName || '',
+        username: initData?.user?.username || '',
+        language_code: initData?.user?.languageCode || '',
+        allows_write_to_pm: initData?.user?.allowsWriteToPm || false,
+      },
+    };
+
     const handleRequest = async (webAppData: AccessTokenParams) => {
       setIsLoading(true);
 
@@ -46,7 +50,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 
       if (accessToken) {
         localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, accessToken);
-        setSessionToken(`Bearer ${accessToken}`);
+        setSessionToken(accessToken);
         return;
       }
 
@@ -66,7 +70,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
           throw new Error('Failed load session data');
         }
 
-        setSessionToken(`Bearer ${response.data.telegramUserLogin.access_token}`);
+        setSessionToken(response.data.telegramUserLogin.access_token);
         localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, response.data.telegramUserLogin.access_token);
       } catch (error) {
         const errorMessage = isGraphqlError(error, 'FULL_MAINTENANCE') ?? (error as unknown as Error).message;
@@ -77,7 +81,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
     };
 
     handleRequest(data);
-  }, []);
+  }, [initData]);
 
   return (
     <SessionContext.Provider value={{ sessionToken, setSessionToken, isLoading, error }}>
