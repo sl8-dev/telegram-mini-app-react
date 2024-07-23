@@ -1,27 +1,12 @@
 import { FC, useMemo, useState } from 'react';
 import { useSession } from '@/hooks';
 import { DisplayData, DisplayDataRow } from '@/components/DisplayData/DisplayData.tsx';
-import { useInitData, useLaunchParams, User } from '@tma.js/sdk-react';
+import { useInitData, useLaunchParams } from '@tma.js/sdk-react';
 import { List, Placeholder } from '@telegram-apps/telegram-ui';
 import { ACESS_TOKEN_STORAGE_KEY, URL_GRAPHQL } from '@/config.ts';
 import { AccessTokenParams, LOGIN_WITH_ACCESS_TOKEN } from '@/providers';
 import { useMutation } from '@apollo/client';
-import { getCurrentVersion, transformInitData } from '@/utils';
-
-function getUserRows(user: User): DisplayDataRow[] {
-  return [
-    { title: 'id', value: user.id.toString() },
-    { title: 'username', value: user.username },
-    { title: 'photo_url', value: user.photoUrl },
-    { title: 'last_name', value: user.lastName },
-    { title: 'first_name', value: user.firstName },
-    { title: 'is_bot', value: user.isBot },
-    { title: 'is_premium', value: user.isPremium },
-    { title: 'language_code', value: user.languageCode },
-    { title: 'allows_to_write_to_pm', value: user.allowsWriteToPm },
-    { title: 'added_to_attachment_menu', value: user.addedToAttachmentMenu },
-  ];
-}
+import {getCurrentVersion, getUserRows, transformInitData} from '@/utils';
 
 const DebugPage: FC = () => {
   const { sessionToken, error } = useSession();
