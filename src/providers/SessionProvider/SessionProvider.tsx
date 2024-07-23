@@ -13,7 +13,7 @@ export const SessionContext = createContext<SessionContextProps | undefined>({
 });
 
 export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
-  const [sessionToken, setSessionToken] = useState<string | null>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY2OWU5NGUyMzA2NzBlYTQ4NGUwYjVkMCIsInVzZXJuYW1lIjoiZXJ2aW5fa2hhbW9pZG8ifSwic2Vzc2lvbklkIjoiNjY5ZTk0ZTYzMDY3MGVhNDg0ZTBiNWQ1Iiwic3ViIjoiNjY5ZTk0ZTIzMDY3MGVhNDg0ZTBiNWQwIiwiaWF0IjoxNzIxNjY4ODM4LCJleHAiOjE3MjQyNjA4Mzh9.M79dkSAf36Kb2-EkdkGj9q1m2tUIM0aGyA2Z9WT-xNc');
+  const [sessionToken, setSessionToken] = useState<string | null>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
