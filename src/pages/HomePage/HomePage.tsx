@@ -2,10 +2,9 @@ import { FC } from 'react';
 import { useGameData } from '@/hooks';
 import { RewardBanner, TapArea, EnergyBar, Loader } from '@/components';
 import styles from './HomePage.module.css';
-import {ACESS_TOKEN_STORAGE_KEY} from "@/config.ts";
 
 const HomePage: FC = () => {
-  const { gameConfig, loadingGameConfig, errorGameConfig } = useGameData();
+  const { gameConfig, loadingGameConfig } = useGameData();
 
   if (loadingGameConfig) {
     return (
@@ -13,12 +12,6 @@ const HomePage: FC = () => {
         <Loader withText />
       </div>
     );
-  }
-
-  if (errorGameConfig) {
-    localStorage.setItem(ACESS_TOKEN_STORAGE_KEY, '')
-    window.location.href = '/';
-    return null;
   }
 
   if (!gameConfig) {
