@@ -5,6 +5,15 @@
   gap: 32px;
 }
 
+.errorContainer {
+  height: 90dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .title {
   margin-top: 1rem;
   text-align: center;
