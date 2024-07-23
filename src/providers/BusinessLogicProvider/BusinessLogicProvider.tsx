@@ -143,7 +143,7 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
         currentEnergy,
       } = gameConfig.telegramGameGetConfig;
 
-      setEarned(coinsAmount ?? 0);
+      setEarned(prev => (prev > coinsAmount ? prev : coinsAmount) ?? 0);
       setLevel(level ?? 0);
       setCurrentBossHealth(currentHealth ?? 0);
       setCurrentBossMaxHealth(maxHealth ?? 0);
