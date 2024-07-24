@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameData } from '@/hooks';
 import styles from './TapArea.module.css';
@@ -23,33 +23,30 @@ const TapArea: FC = () => {
     refetchGameConfig,
   } = useGameData();
   const intervalTapCountRef = useRef<number>(0);
+  const tapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [sendTapCount] = useMutation(SEND_TAP_COUNT);
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        if (nonce && intervalTapCountRef.current) {
-          await sendTapCount({
-            variables: {
-              payload: {
-                tapsCount: intervalTapCountRef.current,
-                nonce: nonce,
-              },
+  const sendTapsToServer = async () => {
+    try {
+      if (nonce && intervalTapCountRef.current) {
+        await sendTapCount({
+          variables: {
+            payload: {
+              tapsCount: intervalTapCountRef.current,
+              nonce: nonce,
             },
-          });
+          },
+        });
 
-          refetchGameConfig();
-        }
         refetchGameConfig();
-      } catch (error) {
-        console.error(error);
       }
+      refetchGameConfig();
+    } catch (error) {
+      console.error(error);
+    }
 
-      intervalTapCountRef.current = 0;
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [nonce, refetchGameConfig, sendTapCount]);
+    intervalTapCountRef.current = 0;
+  };
 
   const handleTap = (e: React.TouchEvent<HTMLDivElement>) => {
     if (isTapAreaDisabled) return;
@@ -73,6 +70,14 @@ const TapArea: FC = () => {
 
     setCoinAnimation(true);
     setTimeout(() => setCoinAnimation(false), 100);
+
+    if (tapTimeoutRef.current) {
+      clearTimeout(tapTimeoutRef.current);
+    }
+
+    tapTimeoutRef.current = setTimeout(() => {
+      sendTapsToServer();
+    }, 500);
   };
 
   const handleAnimationComplete = (id: number) => {
