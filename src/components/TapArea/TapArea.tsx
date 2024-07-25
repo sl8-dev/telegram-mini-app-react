@@ -20,6 +20,7 @@ const TapArea: FC = () => {
     isTapAreaDisabled,
     onUserTap,
     gameConfig: { nonce },
+    refetchGameConfig,
   } = useGameData();
   const intervalTapCountRef = useRef<number>(0);
   const tapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -37,9 +38,9 @@ const TapArea: FC = () => {
           },
         });
 
-        // refetchGameConfig();
+        refetchGameConfig();
       }
-      // refetchGameConfig();
+      refetchGameConfig();
     } catch (error) {
       console.error(error);
     }
