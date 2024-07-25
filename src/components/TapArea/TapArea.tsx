@@ -38,9 +38,9 @@ const TapArea: FC = () => {
           },
         });
 
-        refetchGameConfig();
+        // refetchGameConfig();
       }
-      refetchGameConfig();
+      // refetchGameConfig();
     } catch (error) {
       console.error(error);
     }
