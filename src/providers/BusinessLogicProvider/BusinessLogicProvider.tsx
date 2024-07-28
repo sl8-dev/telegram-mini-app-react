@@ -139,10 +139,8 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [earned, currentBossHealth, currentBossMaxHealth, energy, maxEnergy]);
 
   useEffect(() => {
-    if (errorGameConfig?.message === 'Unauthorized') {
-      setSessionToken(null)
-      localStorage.removeItem(ACESS_TOKEN_STORAGE_KEY);
-    }
+    setSessionToken(null);
+    localStorage.removeItem(ACESS_TOKEN_STORAGE_KEY);
   }, [errorGameConfig]);
 
   const providerData: BusinessLogicContextProps = {
