@@ -13,7 +13,6 @@ const HomePage: FC = () => {
       </div>
     );
   }
-
   if (!gameConfig) {
     return <h1>Something went wrong. Try again later.</h1>;
   }
