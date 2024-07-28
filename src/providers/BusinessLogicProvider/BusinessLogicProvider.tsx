@@ -2,6 +2,8 @@ import { createContext, FC, PropsWithChildren, useCallback, useEffect, useState 
 import { BusinessLogicContextProps } from '@/providers/BusinessLogicProvider/types';
 import { useQuery } from '@apollo/client';
 import { GET_GAME_CONFIG } from '@/providers/BusinessLogicProvider/queries';
+import { ACESS_TOKEN_STORAGE_KEY } from '@/config';
+import { useSession } from '@/hooks';
 
 export const BusinessLogicContext = createContext<BusinessLogicContextProps | undefined>({
   tapWeight: 0,
@@ -59,6 +61,7 @@ export const BusinessLogicContext = createContext<BusinessLogicContextProps | un
 });
 
 const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { setSessionToken } = useSession();
   const [tapWeight, setTapWeight] = useState(1);
   const [earned, setEarned] = useState(0);
   const [level, setLevel] = useState(0);
@@ -134,6 +137,13 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
       };
     });
   }, [earned, currentBossHealth, currentBossMaxHealth, energy, maxEnergy]);
+
+  useEffect(() => {
+    if (errorGameConfig?.message === 'Unauthorized') {
+      setSessionToken(null)
+      localStorage.removeItem(ACESS_TOKEN_STORAGE_KEY);
+    }
+  }, [errorGameConfig]);
 
   const providerData: BusinessLogicContextProps = {
     tapWeight,
