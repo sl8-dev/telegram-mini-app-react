@@ -1,11 +1,10 @@
 import { FC } from 'react';
-import { useGameData, useSession } from '@/hooks';
+import { useGameData } from '@/hooks';
 import { RewardBanner, TapArea, EnergyBar, Loader } from '@/components';
 import styles from './HomePage.module.css';
 
 const HomePage: FC = () => {
-  const { gameConfig, loadingGameConfig, refetchGameConfig, errorGameConfig } = useGameData();
-  const { sessionToken } = useSession()
+  const { gameConfig, loadingGameConfig, refetchGameConfig } = useGameData();
 
   if (loadingGameConfig) {
     return (
@@ -22,9 +21,6 @@ const HomePage: FC = () => {
     return (
       <h1>
         Something went wrong. Please try again.
-        error: { errorGameConfig?.message }
-        token: { sessionToken }
-
         <button className="button" onClick={refresh}>
           Click here to refresh
         </button>
@@ -42,4 +38,3 @@ const HomePage: FC = () => {
 };
 
 export default HomePage;
-
