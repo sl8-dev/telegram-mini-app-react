@@ -20,6 +20,7 @@
     "@tma.js/react-router-integration": "^4.0.2",
     "@tma.js/sdk-react": "^2.2.3",
     "@tonconnect/ui-react": "^2.0.5",
+    "crypto-js": "^4.2.0",
     "eruda": "^3.0.1",
     "framer-motion": "^11.2.12",
     "graphql": "^16.8.2",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.12.11",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

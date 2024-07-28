@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 export const GET_GAME_CONFIG = gql`
   query TelegramGameGetConfig {
     telegramGameGetConfig {
+      _id
       coinsAmount
       currentEnergy
       maxEnergy
@@ -12,11 +13,13 @@ export const GET_GAME_CONFIG = gql`
       energyRechargeLevel
       tapBotLevel
       currentBoss {
+        _id
         level
         currentHealth
         maxHealth
       }
       freeBoosts {
+        _id
         currentTurboAmount
         maxTurboAmount
         turboLastActivatedAt

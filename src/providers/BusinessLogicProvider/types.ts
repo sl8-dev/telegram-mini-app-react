@@ -37,18 +37,14 @@ export interface BusinessLogicContextProps {
   setIsTapAreaDisabled: setFunctionType<boolean>;
 
   gameConfig: TelegramGameConfig;
-  refetchGameConfig: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>> | undefined;
+  refetchGameConfig: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<any>> | undefined;
   loadingGameConfig: boolean;
   errorGameConfig: ApolloError | undefined;
 }
 
-export interface ICurrentBoss {
-  currentHealth: number;
-  level: number;
-  maxHealth: number;
-}
-
-export type IFreeBoosts = {
+export type TelegramGameFreeBoostOutput = {
   currentRefillEnergyAmount: number;
   currentTurboAmount: number;
   maxRefillEnergyAmount: number;
@@ -60,17 +56,25 @@ export type IFreeBoosts = {
 };
 
 export interface TelegramGameConfig {
+  _id: string;
   coinsAmount: number;
-  currentBoss: ICurrentBoss;
   currentEnergy: number;
+  maxEnergy: number;
+  energyRechargedAt: Date;
+  weaponLevel: number;
   energyLimitLevel: number;
   energyRechargeLevel: number;
-  energyRechargedAt: Date;
-  freeBoosts: IFreeBoosts;
-  maxEnergy: number;
-  nonce: number;
   tapBotLevel: number;
-  weaponLevel: number;
+  currentBoss: TelegramGameCurrentBossOutput;
+  freeBoosts: TelegramGameFreeBoostOutput;
+  nonce: string;
+}
+
+export interface TelegramGameCurrentBossOutput {
+  _id: string;
+  level: number;
+  currentHealth: number;
+  maxHealth: number;
 }
 
 export interface GameConfig {

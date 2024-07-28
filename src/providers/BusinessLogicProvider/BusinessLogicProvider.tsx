@@ -1,44 +1,35 @@
 import { createContext, FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { BusinessLogicContextProps } from '@/providers/BusinessLogicProvider/types.ts';
+import { BusinessLogicContextProps } from '@/providers/BusinessLogicProvider/types';
 import { useQuery } from '@apollo/client';
-import { GET_GAME_CONFIG } from '@/providers/BusinessLogicProvider/queries.ts';
+import { GET_GAME_CONFIG } from '@/providers/BusinessLogicProvider/queries';
 
 export const BusinessLogicContext = createContext<BusinessLogicContextProps | undefined>({
   tapWeight: 0,
   setTapWeight: () => undefined,
-
   earned: 0,
   setEarned: () => undefined,
-
   level: 0,
   setLevel: () => undefined,
-
   currentBossHealth: 0,
   setCurrentBossHealth: () => undefined,
-
   currentBossMaxHealth: 0,
   setCurrentBossMaxHealth: () => undefined,
-
   energy: 0,
   setEnergy: () => undefined,
-
   maxEnergy: 0,
   setMaxEnergy: () => undefined,
-
   loading: false,
   setLoading: () => undefined,
-
   error: '',
   setError: () => undefined,
-
   onUserTap: () => undefined,
-
   isTapAreaDisabled: false,
   setIsTapAreaDisabled: () => undefined,
-
   gameConfig: {
+    _id: '',
     coinsAmount: 0,
     currentBoss: {
+      _id: '',
       currentHealth: 0,
       level: 0,
       maxHealth: 0,
@@ -58,7 +49,7 @@ export const BusinessLogicContext = createContext<BusinessLogicContextProps | un
       turboLastActivatedAt: new Date(),
     },
     maxEnergy: 0,
-    nonce: 0,
+    nonce: '',
     tapBotLevel: 0,
     weaponLevel: 0,
   },
@@ -80,17 +71,69 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isTapAreaDisabled, setIsTapAreaDisabled] = useState(false);
 
   const {
-    data: gameConfig,
+    data: initialGameConfig,
     refetch: refetchGameConfig,
     loading: loadingGameConfig,
     error: errorGameConfig,
   } = useQuery(GET_GAME_CONFIG);
+
+  const [gameConfig, setGameConfig] = useState(initialGameConfig?.telegramGameGetConfig);
 
   const onUserTap = useCallback(() => {
     setEarned((prev) => prev + 1);
     setEnergy((prev) => prev - 1);
     setCurrentBossHealth((prev) => prev - 1);
   }, []);
+
+  useEffect(() => {
+    if (initialGameConfig) {
+      const {
+        coinsAmount,
+        currentBoss: { level, currentHealth, maxHealth } = { level: 0, currentHealth: 0, maxHealth: 0 },
+        maxEnergy,
+        currentEnergy,
+      } = initialGameConfig.telegramGameGetConfig;
+
+      setEarned((prev) => (prev > coinsAmount ? prev : coinsAmount) ?? 0);
+      setLevel(level ?? 0);
+      setCurrentBossHealth(currentHealth ?? 0);
+      setCurrentBossMaxHealth(maxHealth ?? 0);
+      setEnergy(currentEnergy ?? 0);
+      setMaxEnergy(maxEnergy ?? 0);
+      setGameConfig(initialGameConfig.telegramGameGetConfig);
+    }
+  }, [initialGameConfig]);
+
+  useEffect(() => {
+    const energyRecovery = setInterval(() => setEnergy((prev) => (prev < maxEnergy ? prev + 1 : prev)), 1000);
+
+    return () => clearInterval(energyRecovery);
+  }, [maxEnergy]);
+
+  useEffect(() => {
+    if (energy <= 0) {
+      setIsTapAreaDisabled(true);
+    } else {
+      setIsTapAreaDisabled(false);
+    }
+  }, [energy]);
+
+  useEffect(() => {
+    setGameConfig((prev: any) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        coinsAmount: earned,
+        currentBoss: {
+          ...prev.currentBoss,
+          currentHealth: currentBossHealth,
+          maxHealth: currentBossMaxHealth,
+        },
+        currentEnergy: energy,
+        maxEnergy: maxEnergy,
+      };
+    });
+  }, [earned, currentBossHealth, currentBossMaxHealth, energy, maxEnergy]);
 
   const providerData: BusinessLogicContextProps = {
     tapWeight,
@@ -114,43 +157,11 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
     onUserTap,
     isTapAreaDisabled,
     setIsTapAreaDisabled,
-    gameConfig: gameConfig?.telegramGameGetConfig,
+    gameConfig,
     refetchGameConfig,
     loadingGameConfig,
     errorGameConfig,
   };
-
-  useEffect(() => {
-    const energyRecovery = setInterval(() => setEnergy((prev) => (prev < maxEnergy ? prev + 1 : prev)), 1000);
-
-    return () => clearInterval(energyRecovery);
-  });
-
-  useEffect(() => {
-    if (energy <= 0) {
-      setIsTapAreaDisabled(true);
-    } else {
-      setIsTapAreaDisabled(false);
-    }
-  }, [energy]);
-
-  useEffect(() => {
-    if (gameConfig) {
-      const {
-        coinsAmount,
-        currentBoss: { level, currentHealth, maxHealth },
-        maxEnergy,
-        currentEnergy,
-      } = gameConfig.telegramGameGetConfig;
-
-      setEarned(prev => (prev > coinsAmount ? prev : coinsAmount) ?? 0);
-      setLevel(level ?? 0);
-      setCurrentBossHealth(currentHealth ?? 0);
-      setCurrentBossMaxHealth(maxHealth ?? 0);
-      setEnergy(currentEnergy ?? 0);
-      setMaxEnergy(maxEnergy ?? 0);
-    }
-  }, [gameConfig]);
 
   return <BusinessLogicContext.Provider value={providerData}>{children}</BusinessLogicContext.Provider>;
 };
