@@ -19,6 +19,7 @@ const TapArea: FC = () => {
   const { tapWeight, isTapAreaDisabled, onUserTap, gameConfig } = useGameData();
   const intervalTapCountRef = useRef<number>(0);
   const touchEventRef = useRef(false);
+  const isSendingRef = useRef<boolean>(false);
 
   const tapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -29,6 +30,7 @@ const TapArea: FC = () => {
       const nonce = serializeUserConfig(gameConfig).nonce;
 
       if (intervalTapCountRef.current > 0) {
+        isSendingRef.current = true;
         await sendTapCount({
           variables: {
             payload: {
@@ -38,19 +40,33 @@ const TapArea: FC = () => {
           },
         });
         intervalTapCountRef.current = 0;
+        isSendingRef.current = false;
       }
     } catch (error) {
       console.error(error);
+      isSendingRef.current = false;
     }
   };
 
   const debounceTapsUpdate = () => {
     if (tapTimeoutRef.current) {
       clearTimeout(tapTimeoutRef.current);
+      tapTimeoutRef.current = null;
     }
-    tapTimeoutRef.current = setTimeout(() => {
-      sendTapsToServer();
-    }, 500);
+
+    const sendTaps = async () => {
+      if (!isSendingRef.current && intervalTapCountRef.current > 0) {
+        await sendTapsToServer();
+      }
+    };
+
+    if (intervalTapCountRef.current >= 100) {
+      sendTaps();
+    } else {
+      tapTimeoutRef.current = setTimeout(() => {
+        sendTaps();
+      }, 500);
+    }
   };
 
   const preventClickAfterTouch = (e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>): boolean => {

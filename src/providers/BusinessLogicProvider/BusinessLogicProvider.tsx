@@ -61,7 +61,7 @@ export const BusinessLogicContext = createContext<BusinessLogicContextProps | un
 });
 
 const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { setSessionToken } = useSession();
+  const { setSessionToken, refetchSession } = useSession();
   const [tapWeight, setTapWeight] = useState(1);
   const [earned, setEarned] = useState(0);
   const [level, setLevel] = useState(0);
@@ -139,8 +139,16 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [earned, currentBossHealth, currentBossMaxHealth, energy, maxEnergy]);
 
   useEffect(() => {
-    setSessionToken(null);
-    localStorage.removeItem(ACESS_TOKEN_STORAGE_KEY);
+    if (errorGameConfig) {
+      const handleRefetch = async () => {
+        setSessionToken(null);
+        localStorage.removeItem(ACESS_TOKEN_STORAGE_KEY);
+        await refetchSession();
+        await refetchGameConfig();
+      };
+
+      handleRefetch();
+    }
   }, [errorGameConfig]);
 
   const providerData: BusinessLogicContextProps = {

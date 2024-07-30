@@ -16,6 +16,8 @@ export interface SessionProviderProps {
 export interface SessionContextProps {
   sessionToken: string | null;
   setSessionToken: (session: string | null) => void;
+  refetchSession: (
+  ) => Promise<void> | undefined;
   isLoading: boolean;
   error: string;
 }
