@@ -1,8 +1,30 @@
 body {
-  background: #1c1c1d;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
   font-family: 'Roboto', sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  background: radial-gradient(circle at center, #745600 0%, #1c1c1d 39%, #000000 70%);
+  background-size: 200% 200%;
+  animation: gradientBackground 10s ease infinite;
+  color: white;
+}
+
+@keyframes gradientBackground {
+  0% {
+    background-position: 50% 50%;
+  }
+  25% {
+    background-position: 60% 60%;
+  }
+  50% {
+    background-position: 50% 50%;
+  }
+  75% {
+    background-position: 40% 40%;
+  }
+  100% {
+    background-position: 50% 50%;
+  }
 }
 
 * {
@@ -40,4 +62,22 @@ body {
 .button:disabled {
   background-color: #c0c0c0;
   cursor: not-allowed;
+}
+
+.Toastify__toast {
+  background: linear-gradient(to right, #1f212452, #2e2d2c) !important;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(to right, #1f212452, #2e2d2c) !important;
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(to right, #1f212452, #2e2d2c) !important;
+}
+
+.Toastify__close-button {
+  color: #fff !important;
 }

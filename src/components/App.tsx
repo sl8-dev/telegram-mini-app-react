@@ -15,6 +15,8 @@ import { Navigate, Route, Router, Routes } from 'react-router-dom';
 import { routes } from '@/navigation/routes.tsx';
 import { NavBar } from '@/components';
 import { postEvent } from '@telegram-apps/sdk';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -74,6 +76,19 @@ export const App: FC = () => {
       appearance={miniApp.isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
     >
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        closeButton={true}
+      />
+
       <Router location={location} navigator={reactNavigator}>
         <Routes>
           {routes.map((route) => (

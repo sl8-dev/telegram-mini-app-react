@@ -50,6 +50,7 @@ export const BusinessLogicContext = createContext<BusinessLogicContextProps | un
       turboAmountLastRechargeDate: new Date(),
       turboLastActivatedAt: new Date(),
     },
+    referralCode: '',
     maxEnergy: 0,
     nonce: '',
     tapBotLevel: 0,

@@ -36,7 +36,7 @@ export const DisplayData: FC<DisplayDataProps> = ({ header, rows }) => (
 
       return (
         <Cell className="display-data__line" subhead={item.title} readOnly multiline={true} key={idx}>
-          <span className="display-data__line-value">{valueNode} 100</span>
+          <span className="display-data__line-value">{valueNode}</span>
         </Cell>
       );
     })}

@@ -64,6 +64,7 @@ export interface TelegramGameConfig {
   weaponLevel: number;
   energyLimitLevel: number;
   energyRechargeLevel: number;
+  referralCode: string;
   tapBotLevel: number;
   currentBoss: TelegramGameCurrentBossOutput;
   freeBoosts: TelegramGameFreeBoostOutput;

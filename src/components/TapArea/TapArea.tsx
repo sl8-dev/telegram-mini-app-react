@@ -5,6 +5,7 @@ import styles from './TapArea.module.css';
 import { useMutation } from '@apollo/client';
 import { SEND_TAP_COUNT } from '@/components/TapArea/queries.ts';
 import { serializeUserConfig } from '@/utils/nounce';
+import { toast } from 'react-toastify';
 
 interface Tap {
   id: number;
@@ -46,7 +47,7 @@ const TapArea: FC = () => {
       }
     } catch (error) {
       console.error(error);
-      isSendingRef.current = false;
+      isSendingRef.current = false; toast.error('Failed to save your progress please try refresh app');
     }
   };
 

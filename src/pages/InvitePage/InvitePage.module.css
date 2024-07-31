@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.inviteBox {
+  background-color: #4e342e;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to right, #1f212452, #2e2d2c);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #d3d3d3;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.inviteButton {
+  background-color: #ffb300;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.copyButton {
+  background-color: #0000003b;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  height: 40px;
+}
+
+.copyButton img {
+  width: 24px;
+  height: 24px;
+}

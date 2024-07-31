@@ -6,9 +6,10 @@ const ICON_SRCS = {
   rewards: '/assets/reward.svg',
   mine: '/assets/mine.svg',
   fav: '/assets/star.svg',
+  invite: '/assets/invite.svg',
 };
 
-type IconType = 'boost' | 'rewards' | 'mine' | 'fav';
+type IconType = 'boost' | 'rewards' | 'mine' | 'fav' | 'invite';
 
 interface Props {
   badge?: number;

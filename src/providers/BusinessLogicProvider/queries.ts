@@ -12,6 +12,7 @@ export const GET_GAME_CONFIG = gql`
       energyLimitLevel
       energyRechargeLevel
       tapBotLevel
+      referralCode
       currentBoss {
         _id
         level

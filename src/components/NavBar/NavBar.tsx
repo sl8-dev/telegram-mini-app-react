@@ -10,6 +10,10 @@ const NavBar: FC = () => {
     navigate('/dummy');
   };
 
+  const onInvitePage = () => {
+    navigate('/invite');
+  };
+
   const onHomePage = () => {
     navigate('/');
   };
@@ -25,6 +29,7 @@ const NavBar: FC = () => {
   return (
     <div className={styles.navbar}>
       <IconButton icon={'rewards'} title={'Home'} onClick={onHomePage} />
+      <IconButton icon={'invite'} title={'Invite'} onClick={onInvitePage} />
       <IconButton icon={'boost'} title={'Boost'} onClick={onDummyPage} />
       <IconButton icon={'mine'} title={'Mine'} onClick={onDummyPage} />
       <IconButton icon={'fav'} title={'Wallet'} onClick={onDummyPage} />
