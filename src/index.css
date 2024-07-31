@@ -1,5 +1,8 @@
 body {
   background: #1c1c1d;
+  font-family: 'Roboto', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 * {

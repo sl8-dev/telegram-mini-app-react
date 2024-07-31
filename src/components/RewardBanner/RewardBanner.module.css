@@ -1,10 +1,9 @@
 * {
   color: #f4d497;
-  font-family: sans-serif;
 }
 
 .container {
-  margin: 0 auto;
+  margin: 50px auto 0;
   padding: 0 0 8px;
   max-width: 330px;
   width: 100%;
@@ -29,13 +28,32 @@
 }
 
 .amount {
-  font-size: 29px;
-  font-weight: 700;
+  margin: 0px;
+  font-style: normal;
+  font-size: 32px;
+  letter-spacing: 1px;
+  font-weight: 900;
+  line-height: 24px;
+  color: rgb(244, 240, 235);
+  -webkit-text-stroke-width: 0px;
+  text-shadow:
+    rgb(184, 134, 11) -1.5px -1.5px 0px,
+    rgb(184, 134, 11) 0px -1.5px 0px,
+    rgb(184, 134, 11) 1.5px -1.5px 0px,
+    rgb(184, 134, 11) 1.5px 0px 0px,
+    rgb(184, 134, 11) 1.5px 1.5px 0px,
+    rgb(184, 134, 11) 0px 1.5px 0px,
+    rgb(184, 134, 11) -1.5px 1.5px 0px,
+    rgb(184, 134, 11) -1.5px 0px 0px;
+  filter: drop-shadow(rgb(184, 134, 11) 0px 1px 0px);
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #b8860b, #d4af37, #b8860b);
+  -webkit-background-clip: text;
+  color: white;
 }
 
 .label {
   width: 100%;
-  font-family: sans-serif;
   font-size: 12px;
   font-weight: 300;
   text-align: center;

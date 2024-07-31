@@ -13,7 +13,7 @@ import { AppRoot } from '@telegram-apps/telegram-ui';
 import { type FC, useEffect, useMemo } from 'react';
 import { Navigate, Route, Router, Routes } from 'react-router-dom';
 import { routes } from '@/navigation/routes.tsx';
-import { Header, NavBar } from '@/components';
+import { NavBar } from '@/components';
 import { postEvent } from '@telegram-apps/sdk';
 
 export const App: FC = () => {
@@ -75,8 +75,6 @@ export const App: FC = () => {
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
     >
       <Router location={location} navigator={reactNavigator}>
-        <Header />
-
         <Routes>
           {routes.map((route) => (
             <Route key={route.path} {...route} />
