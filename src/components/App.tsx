@@ -1,4 +1,4 @@
-import { useIntegration } from '@tma.js/react-router-integration';
+import { useIntegration } from '@telegram-apps/react-router-integration';
 import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
@@ -8,13 +8,13 @@ import {
   useMiniApp,
   useThemeParams,
   useViewport,
-} from '@tma.js/sdk-react';
+} from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { type FC, useEffect, useMemo } from 'react';
 import { Navigate, Route, Router, Routes } from 'react-router-dom';
-
 import { routes } from '@/navigation/routes.tsx';
 import { Header, NavBar } from '@/components';
+import { postEvent } from '@telegram-apps/sdk';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -31,8 +31,31 @@ export const App: FC = () => {
   }, [themeParams]);
 
   useEffect(() => {
-    return viewport && bindViewportCSSVars(viewport);
+    if (viewport) {
+      return bindViewportCSSVars(viewport);
+    }
   }, [viewport]);
+
+  // Prevent default touch actions to disable slide-down behavior
+  useEffect(() => {
+    const preventDefault = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('touchmove', preventDefault, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchmove', preventDefault);
+    };
+  }, []);
+
+  // Expand mini app to fullscreen and disable swipe to close
+  useEffect(() => {
+    postEvent('web_app_expand');
+    postEvent('web_app_setup_swipe_behavior', { allow_vertical_swipe: false });
+  }, []);
 
   // Create new application navigator and attach it to the browser history, so it could modify
   // it and listen to its changes.
@@ -66,3 +89,5 @@ export const App: FC = () => {
     </AppRoot>
   );
 };
+
+export default App;

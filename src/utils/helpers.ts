@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql/error';
-import { User } from '@tma.js/sdk-react';
+import { User } from '@telegram-apps/sdk-react';
 import { DisplayDataRow } from '@/components/DisplayData/DisplayData.tsx';
 
 export function transformInitData(initData: string): string {

@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import { useSession } from '@/hooks';
 import { DisplayData, DisplayDataRow } from '@/components/DisplayData/DisplayData.tsx';
-import { useInitData, useLaunchParams } from '@tma.js/sdk-react';
+import { useInitData, useLaunchParams } from '@telegram-apps/sdk-react';
 import { List, Placeholder } from '@telegram-apps/telegram-ui';
 import { ACESS_TOKEN_STORAGE_KEY, URL_GRAPHQL } from '@/config.ts';
 import { AccessTokenParams, LOGIN_WITH_ACCESS_TOKEN } from '@/providers';

@@ -24,7 +24,7 @@ export const BusinessLogicContext = createContext<BusinessLogicContextProps | un
   setLoading: () => undefined,
   error: '',
   setError: () => undefined,
-  onUserTap: (count: number) => undefined,
+  onUserTap: () => undefined,
   isTapAreaDisabled: false,
   setIsTapAreaDisabled: () => undefined,
   gameConfig: {
