@@ -24,7 +24,7 @@ export const BusinessLogicContext = createContext<BusinessLogicContextProps | un
   setLoading: () => undefined,
   error: '',
   setError: () => undefined,
-  onUserTap: () => undefined,
+  onUserTap: (count: number) => undefined,
   isTapAreaDisabled: false,
   setIsTapAreaDisabled: () => undefined,
   gameConfig: {
@@ -82,10 +82,10 @@ const BusinessLogicProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const [gameConfig, setGameConfig] = useState(initialGameConfig?.telegramGameGetConfig);
 
-  const onUserTap = useCallback(() => {
-    setEarned((prev) => prev + 1);
-    setEnergy((prev) => prev - 1);
-    setCurrentBossHealth((prev) => prev - 1);
+  const onUserTap = useCallback((count: number) => {
+    setEarned((prev) => prev + count);
+    setEnergy((prev) => prev - count);
+    setCurrentBossHealth((prev) => prev - count);
   }, []);
 
   useEffect(() => {

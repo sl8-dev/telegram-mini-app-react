@@ -31,7 +31,7 @@ export interface BusinessLogicContextProps {
   error: string;
   setError: setFunctionType<string>;
 
-  onUserTap: () => void;
+  onUserTap: (count: number) => void;
 
   isTapAreaDisabled: boolean;
   setIsTapAreaDisabled: setFunctionType<boolean>;

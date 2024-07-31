@@ -31,15 +31,17 @@ const TapArea: FC = () => {
 
       if (intervalTapCountRef.current > 0) {
         isSendingRef.current = true;
+        const currentTapCount = intervalTapCountRef.current;
+        intervalTapCountRef.current = 0;
+
         await sendTapCount({
           variables: {
             payload: {
-              tapsCount: intervalTapCountRef.current,
+              tapsCount: currentTapCount,
               nonce,
             },
           },
         });
-        intervalTapCountRef.current = 0;
         isSendingRef.current = false;
       }
     } catch (error) {
@@ -75,6 +77,7 @@ const TapArea: FC = () => {
       e.preventDefault();
     } else if (touchEventRef.current) {
       touchEventRef.current = false;
+      e.stopPropagation(); // Prevent the event from bubbling up
       return true;
     }
     return false;
@@ -101,16 +104,19 @@ const TapArea: FC = () => {
   };
 
   const updateTapsAndCount = (newTaps: Tap[]) => {
+    const newTapCount = newTaps.length;
+
     setTaps((prevTaps) => [...prevTaps, ...newTaps]);
     setTapCount((prevCount) => {
-      const newCount = prevCount + newTaps.length;
-      intervalTapCountRef.current += newTaps.length;
-      return newCount;
+      intervalTapCountRef.current += newTapCount;
+      onUserTap(newTapCount);
+      return prevCount + newTapCount;
     });
+
+    debounceTapsUpdate();
   };
 
   const triggerUserFeedback = () => {
-    navigator.vibrate(50);
     setCoinAnimation(true);
     setTimeout(() => setCoinAnimation(false), 100);
   };
@@ -123,9 +129,7 @@ const TapArea: FC = () => {
     const newTaps = getNewTaps(e, boundingRect);
 
     updateTapsAndCount(newTaps);
-    onUserTap();
     triggerUserFeedback();
-    debounceTapsUpdate();
   };
 
   const handleAnimationComplete = (id: number) => {
