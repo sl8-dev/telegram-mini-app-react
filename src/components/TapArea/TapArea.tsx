@@ -17,7 +17,7 @@ const TapArea: FC = () => {
   const [taps, setTaps] = useState<Tap[]>([]);
   const [tapCount, setTapCount] = useState(0);
   const [coinAnimation, setCoinAnimation] = useState(false);
-  const { tapWeight, isTapAreaDisabled, onUserTap, gameConfig } = useGameData();
+  const { tapWeight, isTapAreaDisabled, onUserTap, gameConfig, energy, setIsTapAreaDisabled } = useGameData();
   const intervalTapCountRef = useRef<number>(0);
   const touchEventRef = useRef(false);
   const isSendingRef = useRef<boolean>(false);
@@ -47,7 +47,8 @@ const TapArea: FC = () => {
       }
     } catch (error) {
       console.error(error);
-      isSendingRef.current = false; toast.error('Failed to save your progress please try refresh app');
+      isSendingRef.current = false;
+      toast.error('Failed to save your progress please try refresh app');
     }
   };
 
@@ -70,6 +71,39 @@ const TapArea: FC = () => {
         sendTaps();
       }, 500);
     }
+  };
+
+  const updateTapsAndCount = (newTaps: Tap[]) => {
+    const newTapCount = newTaps.length;
+    const allowableTapCount = Math.max(0, energy - 1);
+    const actualTapsToSave = Math.min(newTapCount, allowableTapCount);
+
+    // If there are no allowable taps, disable the tap area and return
+    if (actualTapsToSave === 0) {
+      setIsTapAreaDisabled(true);
+      setTimeout(() => {
+        setIsTapAreaDisabled(false);
+      }, 10000);
+      return;
+    }
+
+    setTaps((prevTaps) => [...prevTaps, ...newTaps.slice(0, actualTapsToSave)]);
+    setTapCount((prevCount) => {
+      intervalTapCountRef.current += actualTapsToSave;
+      onUserTap(actualTapsToSave);
+      return prevCount + actualTapsToSave;
+    });
+
+    // If newTapCount is greater than allowableTapCount, disable the tap area for 10 seconds
+    if (newTapCount > allowableTapCount) {
+      toast.info('Wait for energy recharge');
+      setIsTapAreaDisabled(true);
+      setTimeout(() => {
+        setIsTapAreaDisabled(false);
+      }, 10000);
+    }
+
+    debounceTapsUpdate();
   };
 
   const preventClickAfterTouch = (e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>): boolean => {
@@ -102,19 +136,6 @@ const TapArea: FC = () => {
         y: (e as React.MouseEvent<HTMLDivElement>).clientY - boundingRect.top,
       },
     ];
-  };
-
-  const updateTapsAndCount = (newTaps: Tap[]) => {
-    const newTapCount = newTaps.length;
-
-    setTaps((prevTaps) => [...prevTaps, ...newTaps]);
-    setTapCount((prevCount) => {
-      intervalTapCountRef.current += newTapCount;
-      onUserTap(newTapCount);
-      return prevCount + newTapCount;
-    });
-
-    debounceTapsUpdate();
   };
 
   const triggerUserFeedback = () => {
