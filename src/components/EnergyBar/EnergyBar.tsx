@@ -12,8 +12,10 @@ const EnergyBar: FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.energyBar}>{componentsToRender}</div>
-      <span className={styles.label}>{energy}/{maxEnergy}</span>
+      <div className={styles.energyBar}>
+        {componentsToRender}
+      </div>
+      <div className={styles.label}>{energy}/{maxEnergy}</div>
     </div>
   );
 };
