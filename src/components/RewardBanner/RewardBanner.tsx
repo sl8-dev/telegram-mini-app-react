@@ -18,7 +18,9 @@ const RewardBanner: FC = () => {
       <div className={styles.divider}></div>
 
       <div className={styles.column}>
-        <p className={styles.label}>Prize pool: 10m SSLX (currently $55,000)</p>
+        <p className={styles.label}>
+          Prize pool: <strong>10,000,000 SSLX</strong>
+        </p>
         <p className={styles.label}>Target SSLX price: $200</p>
       </div>
     </div>
