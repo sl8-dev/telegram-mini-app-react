@@ -22,7 +22,7 @@ const InvitePage: FC = () => {
   const totalRewards = referralsData ? referralsData.reduce((acc, referral) => acc + referral.rewardsAmount, 0) : 0;
 
   const handleCopyToClipboard = () => {
-    const inviteLink = `https://t.me/gold_eagle_coin_bot?start=${gameConfig?.referralCode}`;
+    const inviteLink = `https://t.me/gold_eagle_coin_bot?start=r_${gameConfig?.referralCode}`;
 
     if (navigator.clipboard) {
       navigator.clipboard
