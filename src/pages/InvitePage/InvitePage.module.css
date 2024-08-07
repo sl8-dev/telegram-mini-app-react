@@ -1,25 +1,25 @@
 .container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  padding: 20px 0;
   height: 100vh;
+  color: #ffffff;
 }
 
 .inviteBox {
-  background-color: #4e342e;
+  background-color: #2e2e2e;
   border-radius: 12px;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(to right, #1f212452, #2e2d2c);
+  width: 80%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
 }
 
 .header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .icon {
@@ -32,18 +32,17 @@
   margin: 0;
   font-size: 24px;
   font-weight: bold;
-  color: #ffffff;
 }
 
 .subtitle {
   margin: 0;
   font-size: 16px;
-  color: #d3d3d3;
 }
 
 .buttonContainer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .inviteButton {
@@ -55,19 +54,70 @@
   font-weight: bold;
   color: #ffffff;
   cursor: pointer;
+  flex: 1;
   margin-right: 10px;
 }
 
 .copyButton {
-  background-color: #0000003b;
+  background-color: #555555;
   border: none;
   border-radius: 8px;
   padding: 10px;
   cursor: pointer;
-  height: 40px;
 }
 
 .copyButton img {
   width: 24px;
   height: 24px;
+}
+
+.referralsContainer {
+  width: 90%;
+}
+
+.referralsContainer p {
+  margin-bottom: 20px;
+}
+
+.referralsTitle {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.referralItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #3e3e3e;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.referralHeader {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.referralInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.referralName {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.referralRewards {
+  font-size: 16px;
+  font-weight: bold;
+  color: green;
 }

@@ -1,10 +1,25 @@
 import { useGameData } from '@/hooks';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
-import styles from './InvitePage.module.css'; // Import the CSS module
+import styles from './InvitePage.module.css';
+import useReferrals from '@/hooks/userReferrals';
+import { ReferralUser } from '@/data/models';
+import { Loader } from '@/components';
 
 const InvitePage: FC = () => {
   const { gameConfig } = useGameData();
+  const { referralsData, loading } = useReferrals();
+
+  if (loading) {
+    return (
+      <div className={styles.loaderContainer}>
+        <Loader withText />
+      </div>
+    );
+  }
+
+  const totalReferrals = referralsData ? referralsData.length : 0;
+  const totalRewards = referralsData ? referralsData.reduce((acc, referral) => acc + referral.rewardsAmount, 0) : 0;
 
   const handleCopyToClipboard = () => {
     const inviteLink = `https://t.me/gold_eagle_coin_bot?start=${gameConfig?.referralCode}`;
@@ -67,6 +82,34 @@ const InvitePage: FC = () => {
             <img src="/assets/copy.svg" alt="Copy Icon" />
           </button>
         </div>
+      </div>
+
+      <div className={styles.referralsContainer}>
+        <h2 className={styles.referralsTitle}>REFERRALS {totalReferrals > 0 && `(${totalReferrals})`}</h2>
+        <p>
+          You will receive 6% of your frens taps. Here is the list of your frens:
+          <br />
+          Total rewards: <strong>{totalRewards.toLocaleString()}</strong> 🪙
+        </p>
+        {referralsData && referralsData.length > 0 ? (
+          [...referralsData]
+            .sort((a, b) => b.rewardsAmount - a.rewardsAmount)
+            .map((referral: ReferralUser) => (
+              <div key={referral._id} className={styles.referralItem}>
+                <div className={styles.referralHeader}>
+                  <img className={styles.avatar} src={'/assets/eagle-user.png'} alt={'Gold icon'} />
+                  <div className={styles.referralInfo}>
+                    <span className={styles.referralName}>{referral.firstname}</span>
+                  </div>
+                </div>
+                <div className={styles.referralRewards}>
+                  <span className={styles.rewardsAmount}>+{referral.rewardsAmount.toLocaleString()} 🪙</span>
+                </div>
+              </div>
+            ))
+        ) : (
+          <p>No referrals yet.</p>
+        )}
       </div>
     </div>
   );
